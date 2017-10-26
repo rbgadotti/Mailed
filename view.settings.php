@@ -1,13 +1,6 @@
 <div class="wrap mailed--settings">
 	<h1>Mailed Newsletter Settings</h1>
-	
-	<?php if(!empty(get_option(MAILED__SETTINGS_GROUP . '_mailchimp_apikey'))): ?>
-		<?php if(!MailedMailchimp::api_key_is_valid()): ?>
-		<div class="notice notice-error is-dismissible"> 
-			<p><strong>API Key inválida</strong></p>
-		</div>
-		<?php endif; ?>
-	<?php endif; ?>
+	<?php Mailed::show_alerts(); ?>
 	<form action="options.php" method="POST">
 		<?php
 

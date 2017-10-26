@@ -18,6 +18,8 @@ class MailedMailchimp {
 		self::$apiKey = get_option(MAILED__SETTINGS_GROUP . '_mailchimp_apikey');
 		self::$listId = get_option(MAILED__SETTINGS_GROUP . '_mailchimp_list_id');
 
+		self::api_key_is_valid();
+
 		// add_settings_error('title', 'asasasa', 'lorem ipsum', 'error');
 
 	}
@@ -123,7 +125,12 @@ class MailedMailchimp {
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    return json_decode($result);
+    $res = new StdClass;
+
+    $res->status = $httpCode;
+    $res->body = json_decode($result);
+
+    return $res;
 
 	}
 
@@ -138,7 +145,11 @@ class MailedMailchimp {
 				'ping' => null
 			);
 
-			self::$apiKeyIsValid = isset(self::make_api_request('GET', self::get_api_url($route))->health_status);
+			self::$apiKeyIsValid = isset(self::make_api_request('GET', self::get_api_url($route))->body->health_status);
+
+			if(!self::$apiKeyIsValid){
+				Mailed::add_alert('API Key inválida');
+			}
 
 		}
 
@@ -168,7 +179,7 @@ class MailedMailchimp {
 			'members' => null
 		);
 
-		return self::make_api_request('POST', self::get_api_url($route), $params);
+		return self::make_api_request('POST', self::get_api_url($route), $params)->body;
 
 	}
 
@@ -179,7 +190,7 @@ class MailedMailchimp {
 			'members' => null
 		);
 
-		return self::make_api_request('GET', self::get_api_url($route), $params)->members;
+		return self::make_api_request('GET', self::get_api_url($route), $params)->body->members;
 
 	}
 
@@ -243,7 +254,7 @@ class MailedMailchimp {
 
 		}
 
-		return self::make_api_request('POST', self::get_api_url('/batches'), array('operations' => $operations));
+		return self::make_api_request('POST', self::get_api_url('/batches'), array('operations' => $operations))->status;
 
 	}
 

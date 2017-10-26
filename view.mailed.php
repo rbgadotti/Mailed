@@ -1,6 +1,7 @@
 <?php $mailed_obj = new Mailed_List(); ?>
 <div class="wrap">
 	<h1>Mailed Newsletter</h1>
+	<?php Mailed::show_alerts(); ?>
 	<br>
 	<div class="clear"></div>
 	<div class="mailed-action-buttons">

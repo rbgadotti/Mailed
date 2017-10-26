@@ -3,6 +3,7 @@
 class Mailed {
 
 	private static $initiated = false;
+	private static $alerts = array();
 
 	public static function init() {
 		if ( ! self::$initiated ) {
@@ -55,6 +56,44 @@ class Mailed {
 	public static function plugin_uninstall() {
 
 		self::drop_table(); 
+
+	}
+
+	/*
+		Add alert
+	*/
+	public static function add_alert($msg, $type = 'error'){
+
+		self::$alerts[] = array('message' => $msg, 'type' => $type);
+
+	}
+
+	/*
+		Show alerts
+	*/
+	public static function show_alerts(){
+
+		foreach(self::$alerts as $alert){
+
+			$statusClass = null;
+
+			switch ($alert['type']) {
+				case 'error':
+					$statusClass = 'notice-error';
+					break;
+				case 'success':
+					$statusClass = 'updated';
+					break;
+				default:
+					$statusClass = 'updated';
+					break;
+			}
+
+			echo '<div class="notice '. $statusClass .' is-dismissible"> 
+							<p><strong>'. $alert['message'] .'</strong></p>
+						</div>';
+
+		}
 
 	}
 
@@ -343,7 +382,9 @@ class Mailed {
 
 				$result = self::get_export_data($data);
 
-				MailedMailchimp::mailchimp_add_multiple($result);
+				if(MailedMailchimp::mailchimp_add_multiple($result) == 200){
+					Mailed::add_alert('Informações sincronizadas com sucesso', 'success');
+				}
 
 			}
 
