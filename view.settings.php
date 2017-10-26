@@ -1,19 +1,3 @@
-<style>
-	
-	.mailed--settings .dashicons-yes {
-		color: #46b450;
-	}
-
-	.mailed--settings .dashicons-no {
-		color: #dc3232;
-	}
-
-	.mailed--settings input + .dashicons-no,
-	.mailed--settings input + .dashicons-yes {
-		margin-top: 5px;
-	}
-
-</style>
 <div class="wrap mailed--settings">
 	<h1>Mailed Newsletter Settings</h1>
 	

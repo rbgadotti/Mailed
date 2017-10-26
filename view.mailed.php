@@ -1,49 +1,4 @@
 <?php $mailed_obj = new Mailed_List(); ?>
-<style>
-	
-	.mailed-action-buttons {
-		display: table;
-		float: left;
-		margin-bottom: 10px;
-	}
-
-	.mailed-action-buttons .button {
-		margin-right: 0;
-	}
-
-	.mailed-action-buttons .button + .button {
-		margin-left: 8px;
-	}
-
-	/* Mailchimp integration */
-
-	.mailchimp_status__subscribed,
-	.mailchimp_status__unsubscribed,
-	.mailchimp_status__cleaned,
-	.mailchimp_status__pending {
-		display: table;
-		padding: 1px 8px;
-		border-radius: 10px;
-		font-size: 12px;
-		font-weight: bold;
-		color: #ffffff;
-	}
-
-	.mailchimp_status__subscribed {
-		background-color: #2ecc71;
-	}
-	.mailchimp_status__unsubscribed {
-		background-color: #ecf0f1;
-		color: #95a5a6;
-	}
-	.mailchimp_status__cleaned {
-		background-color: #34495e;
-	}
-	.mailchimp_status__pending {
-		background-color: #f39c12;
-	}
-
-</style>
 <div class="wrap">
 	<h1>Mailed Newsletter</h1>
 	<br>

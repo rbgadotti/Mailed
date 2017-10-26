@@ -15,6 +15,7 @@ class Mailed {
 			self::$action();
 		}
 
+		add_action('admin_enqueue_scripts', array( 'Mailed', 'add_admin_scripts'));
 		add_action('wp_enqueue_scripts', array( 'Mailed', 'add_scripts'));
 		add_action('wp_ajax_mailed_register_form', array( 'Mailed', 'ajax_mailed_form'));
 		add_action('wp_ajax_nopriv_mailed_register_form', array( 'Mailed', 'ajax_mailed_form'));
@@ -58,10 +59,20 @@ class Mailed {
 	}
 
 	/*
-		Add Scripts
+		Add admin scripts
+	*/
+	public static function add_admin_scripts(){
+
+		wp_enqueue_style('mailed', plugins_url( '/mailed.css', __FILE__ ), array(), '1.0.0');
+
+	}
+
+	/*
+		Add scripts
 	*/
 	public static function add_scripts(){
 
+		
 		wp_enqueue_script('mailed', plugins_url( '/mailed.js', __FILE__ ), array(), '1.0.0');
 
 	  $js_vars = array(
