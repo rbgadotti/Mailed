@@ -45,7 +45,7 @@ class MailedMailchimp {
 	*/
 	public static function is_mailchimp_intragrate_list_table_on(){
 
-		return !!get_option(MAILED__SETTINGS_GROUP . '_mailchimp_intragrate_list_table');
+		return !!get_option(MAILED__SETTINGS_GROUP . '_mailchimp_intragrate_list_table') && self::api_key_is_valid();
 
 	}
 
@@ -147,8 +147,8 @@ class MailedMailchimp {
 
 			self::$apiKeyIsValid = isset(self::make_api_request('GET', self::get_api_url($route))->body->health_status);
 
-			if(!self::$apiKeyIsValid){
-				Mailed::add_alert('API Key inválida');
+			if(!self::$apiKeyIsValid && !empty(self::$apiKey)){
+				Mailed::add_alert('API Key inválida. A integração com o MailChimp foi desabilitada.', 'warning');
 			}
 
 		}

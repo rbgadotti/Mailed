@@ -85,6 +85,9 @@ class Mailed {
 				case 'success':
 					$statusClass = 'updated';
 					break;
+				case 'warning':
+					$statusClass = 'notice-warning';
+					break;
 				default:
 					$statusClass = 'updated';
 					break;

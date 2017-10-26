@@ -56,6 +56,7 @@
 								type="checkbox"
 								value="1"
 								<?php echo get_option(MAILED__SETTINGS_GROUP . '_mailchimp_auto_subscribe', 0) ? 'checked' : ''; ?>
+								<?php echo !MailedMailchimp::api_key_is_valid() ? 'disabled' : ''; ?>
 							/>
 							Adiciona o usuário à lista do MailChimp automaticamente ao inscrever-se
 						</label>
@@ -74,6 +75,7 @@
 								type="checkbox"
 								value="1"
 								<?php echo get_option(MAILED__SETTINGS_GROUP . '_mailchimp_intragrate_list_table', 0) ? 'checked' : ''; ?>
+								<?php echo !MailedMailchimp::api_key_is_valid() ? 'disabled' : ''; ?>
 							/>
 							Adiciona informações e recursos de interação do MailChimp na listagem de inscritos. 
 						</label>
