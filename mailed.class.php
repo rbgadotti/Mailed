@@ -79,7 +79,7 @@ class Mailed {
 	*/
 	public static function register_menu_page() {
 
-		$hook = add_menu_page( 'Mailed', 'Mailed', 'activate_plugins', 'list', array( 'Mailed', 'render_view_list'), 'dashicons-email', 25);
+		$hook = add_menu_page( 'Mailed', 'Mailed', 'activate_plugins', 'mailed', array( 'Mailed', 'render_view_list'), 'dashicons-email', 25);
 
 		add_action("load-$hook", array( 'Mailed', 'add_options'));
 
