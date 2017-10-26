@@ -134,10 +134,6 @@
 			Exibe/oculta um determinado conteúdo quando ocorrer um erro durante o envio do formulário.
 		</p>
 		<!-- Submit -->
-		<table class="form-table">
-			<tr>
-				<td><?php submit_button(); ?></td>
-			</tr>			
-		</table>
+		<?php submit_button(); ?>
 	</form>
 </div>

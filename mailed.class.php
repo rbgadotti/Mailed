@@ -4,6 +4,7 @@ class Mailed {
 
 	private static $initiated = false;
 	private static $alerts = array();
+	private static $result = null;
 
 	public static function init() {
 		if ( ! self::$initiated ) {
@@ -129,7 +130,7 @@ class Mailed {
 	*/
 	public static function register_menu_page() {
 
-		$hook = add_menu_page( 'Mailed', 'Mailed', 'activate_plugins', 'mailed', array( 'Mailed', 'render_view_list'), 'dashicons-email', 25);
+		$hook = add_menu_page( 'Mailed', 'Mailed', 'activate_plugins', 'mailed', array( 'Mailed', 'render_view'), 'dashicons-email', 25);
 
 		add_action("load-$hook", array( 'Mailed', 'add_options'));
 
@@ -161,6 +162,33 @@ class Mailed {
 	  add_screen_option( $option, $args );
 
 	  $mailedList = new Mailed_List;
+
+	}
+
+	/*
+		Insert
+	*/
+	public static function add($email, $firstname, $lastname = null){}
+
+	/*
+		Update
+	*/
+	public static function update($id, $email, $firstname, $lastname = null){
+
+		global $wpdb;
+
+		$data = array(
+			MAILED__FIELD_EMAIL => $email,
+			MAILED__FIELD_FIRSTNAME => $firstname,
+			MAILED__FIELD_LASTNAME => $lastname,
+			MAILED__FIELD_EDITED_AT => date('Y-m-d H:i:s')
+		);
+
+		$where = array(
+			MAILED__FIELD_ID => $id
+		);
+
+		return $wpdb->update($wpdb->prefix . MAILED__TABLE_NAME, $data, $where);
 
 	}
 
@@ -246,15 +274,41 @@ class Mailed {
 	}
 
 	/*
+		Returns current action
+	*/
+	public static function action(){
+
+		return !empty($_GET['action']) ? $_GET['action'] : null;
+
+	}
+
+	/*
 		Render Mailed option main page 
 	*/
-	public static function render_view_list(){
+	public static function render_view(){
 
 		$page_info = get_current_screen();
 		$current_page = 'view.'.$page_info->parent_file.'.php';
 
 		if(file_exists(MAILED__PLUGIN_DIR . $current_page))
 			require_once MAILED__PLUGIN_DIR . $current_page;
+
+	}
+
+	/*
+		Render content
+	*/
+	public static function render_content(){
+
+		$page_info = get_current_screen();
+		$action = !is_null(self::action()) ? self::action() : 'index';
+		$current_view = 'view.'.$page_info->parent_file.'.'. $action .'.php';
+
+		if(file_exists(MAILED__PLUGIN_DIR . $current_view)){
+			require_once MAILED__PLUGIN_DIR . $current_view;
+		}else{
+			require_once MAILED__PLUGIN_DIR . 'view.'.$page_info->parent_file.'.index.php';
+		}
 
 	}
 
@@ -288,11 +342,53 @@ class Mailed {
 
 		$result = $wpdb->get_results( $sql, 'ARRAY_A' );
 
-		foreach($result as &$row){
-			$row[$field_created_at] = date('d/m/Y H:i', strtotime($row[$field_created_at]));
-		}
+		// foreach($result as &$row){
+		// 	$row[$field_created_at] = date('d/m/Y H:i', strtotime($row[$field_created_at]));
+		// 	$row[$field_edited_at] = date('d/m/Y H:i', strtotime($row[$field_edited_at]));
+		// }
 
 		return $result;
+
+	}
+
+	/*
+		Action: Edit
+	*/
+	public static function action_edit(){
+
+		$id = !empty($_GET['mailed']) ? $_GET['mailed'] : null;
+
+		if(!is_null($id)){
+
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			
+				if(!empty($_POST[MAILED_DOMAIN . '_email'] && !empty($_POST[MAILED_DOMAIN . '_firstname']))){
+
+					$mailed_email = $_POST[MAILED_DOMAIN . '_email'];
+					$mailed_firstname = $_POST[MAILED_DOMAIN . '_firstname'];
+					$mailed_lastname = !empty($_POST[MAILED_DOMAIN . '_lastname']) ? $_POST[MAILED_DOMAIN . '_lastname'] : null;
+
+					if(self::update($id, $mailed_email, $mailed_firstname, $mailed_lastname)){
+
+						self::add_alert('Registro atualizado com sucesso', 'success');
+
+					}else{
+
+						self::add_alert('Falha ao atualizar registro', 'error');
+
+					}
+
+				}
+
+			}else{
+
+
+			}
+
+			$result = self::get_export_data($id);
+			self::$result = $result[0];
+
+		}
 
 	}
 

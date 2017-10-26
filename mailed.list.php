@@ -151,14 +151,14 @@ class Mailed_List extends WP_List_Table {
 	*/
 	public function column_mailed_email($item) {
 
-		// $actions = array(
-		// 	'edit'      => sprintf('<a href="?page=%s&action=%s&mailed=%s">Edit</a>',$_REQUEST['page'],'edit',$item['mailed_id']),
-		// 	'delete'    => sprintf('<a href="?page=%s&action=%s&mailed=%s">Delete</a>',$_REQUEST['page'],'delete',$item['mailed_id']),
-		// );
+		$actions = array(
+			'edit'      => sprintf('<a href="?page=%s&action=%s&mailed=%s">Edit</a>',$_REQUEST['page'],'edit',$item['mailed_id']),
+			// 'delete'    => sprintf('<a href="?page=%s&action=%s&mailed=%s">Delete</a>',$_REQUEST['page'],'delete',$item['mailed_id']),
+		);
 
-		// return sprintf('%1$s %2$s', $item['mailed_email'], $this->row_actions($actions) );
+		return sprintf('%1$s %2$s', $item['mailed_email'], $this->row_actions($actions) );
 
-		return $item['mailed_email'];
+		// return $item['mailed_email'];
 
 	}
 
