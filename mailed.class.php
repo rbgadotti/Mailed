@@ -205,6 +205,29 @@ class Mailed {
 	}
 
 	/*
+		Delete
+	*/
+	public static function delete($id){
+
+		global $wpdb;
+
+		if(empty($id)) return;
+
+		if(is_array($id)){
+
+			$ids = implode(',', array_map('absint', $id));
+
+			return $wpdb->query('DELETE FROM '. $wpdb->prefix . MAILED__TABLE_NAME . ' WHERE '. MAILED__FIELD_ID .' IN('. $ids .')');
+
+		}else{
+
+			return $wpdb->delete($wpdb->prefix . MAILED__TABLE_NAME, array(MAILED__FIELD_ID => $id));
+
+		}
+
+	}
+
+	/*
 		Ajax Mailed register function
 	*/
 	public static function ajax_mailed_form(){
@@ -380,6 +403,23 @@ class Mailed {
 			$result = self::get_export_data($id);
 			self::$result = $result[0];
 
+		}
+
+	}
+
+	/*
+		Action: Delete
+	*/
+	public static function action_delete(){
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$id = !empty($_POST['mailed']) ? $_POST['mailed'] : null;
+		}else{
+			$id = !empty($_GET['mailed']) ? $_GET['mailed'] : null;			
+		}
+
+		if(!is_null($id)){
+			self::delete($id);
 		}
 
 	}
