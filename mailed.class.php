@@ -181,6 +181,10 @@ class Mailed {
 			MAILED__FIELD_LASTNAME => $lastname
 		);
 
+		if(MailedMailchimp::is_mailchimp_autosubscribe_on()){
+			MailedMailchimp::mailchimp_add($email, $firstname, $lastname);
+		}
+
 		return $wpdb->insert($wpdb->prefix . MAILED__TABLE_NAME, $data);
 
 	}
@@ -202,6 +206,16 @@ class Mailed {
 		$where = array(
 			MAILED__FIELD_ID => $id
 		);
+
+		if(MailedMailchimp::is_mailchimp_autosubscribe_on()){
+
+			$req = MailedMailchimp::mailchimp_add($email, $firstname, $lastname);
+			
+			if($req->status != 200){
+				self::add_alert('Falha ao sincronizar dados com o MailChimp', 'warning');
+			}
+
+		}
 
 		return $wpdb->update($wpdb->prefix . MAILED__TABLE_NAME, $data, $where);
 

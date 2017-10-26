@@ -176,10 +176,10 @@ class MailedMailchimp {
 
 		$route = array(
 			'lists' => $listId,
-			'members' => null
+			'members' => md5($params['email_address'])
 		);
 
-		return self::make_api_request('POST', self::get_api_url($route), $params)->body;
+		return self::make_api_request('PUT', self::get_api_url($route), $params);
 
 	}
 
