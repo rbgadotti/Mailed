@@ -30,6 +30,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	Info
 */
 define( 'MAILED_VERSION', '1.0.0' );
+define( 'MAILED_DOMAIN', 'mailed');
 define( 'MAILED__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 /*
 	Settings
