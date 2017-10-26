@@ -36,7 +36,7 @@ class MailedMailchimp {
 	*/
 	public static function is_mailchimp_autosubscribe_on(){
 
-		return !!get_option(MAILED__SETTINGS_GROUP . '_mailchimp_auto_subscribe');
+		return !!get_option(MAILED__SETTINGS_GROUP . '_mailchimp_auto_subscribe') && self::api_key_is_valid();
 
 	}
 
