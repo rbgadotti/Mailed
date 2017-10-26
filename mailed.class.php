@@ -168,7 +168,19 @@ class Mailed {
 	/*
 		Insert
 	*/
-	public static function add($email, $firstname, $lastname = null){}
+	public static function insert($email, $firstname, $lastname = null){
+
+		global $wpdb;
+
+		$data = array(
+			MAILED__FIELD_EMAIL => $email,
+			MAILED__FIELD_FIRSTNAME => $firstname,
+			MAILED__FIELD_LASTNAME => $lastname
+		);
+
+		return $wpdb->insert($wpdb->prefix . MAILED__TABLE_NAME, $data);
+
+	}
 
 	/*
 		Update
@@ -202,10 +214,6 @@ class Mailed {
 			'message' => null
 		);
 
-		$mailed_email = null;
-		$mailed_firstname = null;
-		$mailed_lastname = null;
-
 		try {
 
 			if(empty($_POST['mailed_email']) && empty($_POST['email']))
@@ -227,29 +235,13 @@ class Mailed {
 			/*
 				Create
 			*/
-			global $wpdb;
-
-			$table_name = $wpdb->prefix . MAILED__TABLE_NAME;
-
-			$field_email = MAILED__FIELD_EMAIL;
-			$field_firstname = MAILED__FIELD_FIRSTNAME;
-			$field_lastname = MAILED__FIELD_LASTNAME;
-
-			$mailed_email = $email;
-			$mailed_firstname = $firstname;
-			$mailed_lastname = is_null($lastname) ? 'NULL' : "'$lastname'";
-
-			$sql = "INSERT INTO $table_name($field_email, $field_firstname, $field_lastname) VALUES('$mailed_email', '$mailed_firstname', $mailed_lastname);";
-
-			$wpdb->query($sql);
+			self::insert($email, $firstname, $lastname);
 
 			/*
 				Mailchimp Integration
 			*/
 			if(MailedMailchimp::is_mailchimp_autosubscribe_on()){
-
 				MailedMailchimp::mailchimp_add($email, $firstname, $lastname);
-
 			}
 
 			/*

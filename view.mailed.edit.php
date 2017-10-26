@@ -39,6 +39,7 @@
 			</td>
 		</tr>
 		<!-- Status na lista do MailChimp -->
+		<?php if(MailedMailchimp::is_mailchimp_intragrate_list_table_on()): ?>
 		<tr>
 			<th>Status na lista do MailChimp</th>
 			<td>
@@ -50,6 +51,7 @@
 				</select>
 			</td>
 		</tr>
+		<?php endif; ?>
 		<!-- Última edição em -->
 		<tr>
 			<th>Última edição em</th>
