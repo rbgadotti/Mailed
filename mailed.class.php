@@ -192,7 +192,7 @@ class Mailed {
 	/*
 		Update
 	*/
-	public static function update($id, $email, $firstname, $lastname = null){
+	public static function update($id, $email, $firstname, $lastname = null, $mailchimp_status){
 
 		global $wpdb;
 
@@ -209,8 +209,8 @@ class Mailed {
 
 		if(MailedMailchimp::is_mailchimp_autosubscribe_on()){
 
-			$req = MailedMailchimp::mailchimp_add($email, $firstname, $lastname);
-			
+			$req = MailedMailchimp::mailchimp_add($email, $firstname, $lastname, $mailchimp_status);
+
 			if($req->status != 200){
 				self::add_alert('Falha ao sincronizar dados com o MailChimp', 'warning');
 			}
@@ -399,8 +399,9 @@ class Mailed {
 					$mailed_email = $_POST[MAILED_DOMAIN . '_email'];
 					$mailed_firstname = $_POST[MAILED_DOMAIN . '_firstname'];
 					$mailed_lastname = !empty($_POST[MAILED_DOMAIN . '_lastname']) ? $_POST[MAILED_DOMAIN . '_lastname'] : null;
+					$mailed_mailchimp_status = !empty($_POST[MAILED_DOMAIN . '_mailchimp_status']) ? $_POST[MAILED_DOMAIN . '_mailchimp_status'] : null;
 
-					if(self::update($id, $mailed_email, $mailed_firstname, $mailed_lastname)){
+					if(self::update($id, $mailed_email, $mailed_firstname, $mailed_lastname, $mailed_mailchimp_status)){
 
 						self::add_alert('Registro atualizado com sucesso', 'success');
 
@@ -412,12 +413,14 @@ class Mailed {
 
 				}
 
-			}else{
-
-
 			}
 
 			$result = self::get_export_data($id);
+
+			if(MailedMailchimp::is_mailchimp_intragrate_list_table_on()){
+				$result[0]['mailchimp_status'] = MailedMailchimp::mailchimp_list_member($result[0]['mailed_email'])->body->status;
+			}
+
 			self::$result = $result[0];
 
 		}

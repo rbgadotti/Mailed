@@ -39,15 +39,15 @@
 			</td>
 		</tr>
 		<!-- Status na lista do MailChimp -->
-		<?php if(MailedMailchimp::is_mailchimp_intragrate_list_table_on()): ?>
+		<?php if(MailedMailchimp::is_mailchimp_intragrate_list_table_on() && false): ?>
 		<tr>
 			<th>Status na lista do MailChimp</th>
 			<td>
-				<select>
-					<option value="">Subscribed</option>
-					<option value="">Unsubscribed</option>
-					<option value="">Cleaned</option>
-					<option value="">Pending</option>
+				<select name="<?php echo MAILED_DOMAIN . '_mailchimp_status'; ?>">
+					<option value="subscribed" <?php echo Mailed::$result['mailchimp_status'] == 'subscribed' ? 'selected': ''; ?>>Subscribed</option>
+					<option value="unsubscribed" <?php echo Mailed::$result['mailchimp_status'] == 'unsubscribed' ? 'selected': ''; ?>>Unsubscribed</option>
+					<option value="cleaned" <?php echo Mailed::$result['mailchimp_status'] == 'cleaned' ? 'selected': ''; ?>>Cleaned</option>
+					<option value="pending" <?php echo Mailed::$result['mailchimp_status'] == 'pending' ? 'selected': ''; ?>>Pending</option>
 				</select>
 			</td>
 		</tr>

@@ -183,7 +183,18 @@ class MailedMailchimp {
 
 	}
 
-	private static function  lists_get_members($listId, $params = null){
+	private static function lists_get_member($listId, $email){
+
+		$route = array(
+			'lists' => $listId,
+			'members' => md5($email)
+		);
+
+		return self::make_api_request('GET', self::get_api_url($route));
+
+	}
+
+	private static function lists_get_members($listId, $params = null){
 
 		$route = array(
 			'lists' => $listId,
@@ -206,18 +217,16 @@ class MailedMailchimp {
 	/*
 		Add register to a configured list
 	*/
-	public static function mailchimp_add($email, $firstname, $lastname = null){
+	public static function mailchimp_add($email, $firstname, $lastname = null, $mailchimp_status = 'subscribed'){
 
 		$params = array(
 			'email_address' => $email,
-			'status' => 'subscribed',
+			'status' => $mailchimp_status,
 			'merge_fields' => array(
-				'FNAME' => $firstname
+				'FNAME' => $firstname,
+				'LNAME' => $lastname
 			)
 		);
-
-		if(!is_null($lastname))
-			$params['merge_fields']['LNAME'] = $lastname;
 
 		return self::lists_add_member(self::$listId, $params);
 
@@ -264,6 +273,12 @@ class MailedMailchimp {
 	public static function mailchimp_list_members(){
 
 		return self::lists_get_members(self::$listId);
+
+	}
+
+	public static function mailchimp_list_member($email){
+
+		return self::lists_get_member(self::$listId, $email);
 
 	}
 
