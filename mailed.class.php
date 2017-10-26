@@ -222,8 +222,9 @@ class Mailed {
 		$field_firstname = MAILED__FIELD_FIRSTNAME;
 		$field_lastname = MAILED__FIELD_LASTNAME;
 		$field_created_at = MAILED__FIELD_CREATED_AT;
+		$field_edited_at = MAILED__FIELD_EDITED_AT;
 
-		$sql = "SELECT $field_email, $field_firstname, $field_lastname, $field_created_at FROM $table_name";
+		$sql = "SELECT $field_email, $field_firstname, $field_lastname, $field_created_at, $field_edited_at FROM $table_name";
 
 		if(!is_null($id)){
 
@@ -354,6 +355,7 @@ class Mailed {
 		$field_firstname = MAILED__FIELD_FIRSTNAME;
 		$field_lastname = MAILED__FIELD_LASTNAME;
 		$field_created_at = MAILED__FIELD_CREATED_AT;
+		$field_edited_at = MAILED__FIELD_EDITED_AT;
 
 		$sql = "CREATE TABLE $table_name ( 
 		  `$field_id` INT(20) NOT NULL AUTO_INCREMENT ,
@@ -361,6 +363,7 @@ class Mailed {
 		  `$field_firstname` VARCHAR(255) NOT NULL ,
 		  `$field_lastname` VARCHAR(255) NULL ,
 		  `$field_created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ,
+		  `$field_edited_at` TIMESTAMP ,
 		  PRIMARY KEY (`$field_id`)
 		) $charset_collate;";
 

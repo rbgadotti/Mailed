@@ -44,6 +44,7 @@ define( 'MAILED__FIELD_EMAIL', MAILED__TABLE_NAME . '_email');
 define( 'MAILED__FIELD_FIRSTNAME', MAILED__TABLE_NAME . '_firstname');
 define( 'MAILED__FIELD_LASTNAME', MAILED__TABLE_NAME . '_lastname');
 define( 'MAILED__FIELD_CREATED_AT', MAILED__TABLE_NAME . '_created_at');
+define( 'MAILED__FIELD_EDITED_AT', MAILED__TABLE_NAME . '_edited_at');
 
 /*
 	Dependencies
