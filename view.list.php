@@ -52,7 +52,7 @@
 		<a href="?action=export_csv&page=list" class="button action">Exportar CSV</a>
 		<a href="?action=export_excel&page=list" class="button action">Exportar Excel</a>
 		<?php if(MailedMailchimp::is_mailchimp_intragrate_list_table_on()): ?>
-		<a href="?action=mailchimp_sync&page=list" class="button action">Sincronizar com MailChimp</a>
+		<a href="?action=sync_mailchimp&page=list" class="button action">Sincronizar com MailChimp</a>
 		<?php endif; ?>
 	</div>
 	<!-- <div class="clear"></div> -->

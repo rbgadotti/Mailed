@@ -264,6 +264,15 @@ class Mailed {
 	}
 
 	/*
+		Action: Sync to MailChimp
+	*/
+	public static function action_sync_mailchimp(){
+
+		MailedMailchimp::mailchimp_add_multiple(self::get_export_data());
+
+	}
+
+	/*
 		Action: Export selected data to CSV
 	*/
 	public static function action_export_selected_csv(){
