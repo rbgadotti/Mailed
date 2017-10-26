@@ -45,7 +45,7 @@ class Mailed_List extends WP_List_Table {
 			$sql .= ' OR '. MAILED__FIELD_LASTNAME . ' LIKE \'%'. $_POST['s'] . '%\'';
 		}
 
-		if ( ! empty( $_REQUEST['orderby'] ) ) {
+		if ( ! empty( $_REQUEST['orderby'] ) && $_REQUEST['orderby'] != 'mailed_mailchimp_status') {
 			$sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
 			$sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
 		}
@@ -59,6 +59,10 @@ class Mailed_List extends WP_List_Table {
 			Mailchimp Lista table integration
 		*/
 		if(MailedMailchimp::is_mailchimp_intragrate_list_table_on()){
+
+			/*
+				Add Mailchimp status column
+			*/
 
 			foreach($result as &$row){
 
@@ -77,6 +81,18 @@ class Mailed_List extends WP_List_Table {
 
 				}
 
+			}
+
+			/* Order table */
+
+			usort($result, function($a, $b) {
+			  return $a['mailchimp_status'] - $b['mailchimp_status'];
+			});
+
+			$order = !empty( $_REQUEST['order'] ) ? $_REQUEST['order'] : 'asc';
+
+			if($order == 'asc'){
+				$result = array_reverse($result);
 			}
 
 		}
@@ -210,6 +226,10 @@ class Mailed_List extends WP_List_Table {
 			'mailed_lastname'  => array('mailed_lastname',false),
 			'mailed_created_at'  => array('mailed_created_at',false)
 		);
+
+		if(MailedMailchimp::is_mailchimp_intragrate_list_table_on()){
+			$sortable_columns['mailed_mailchimp_status'] = array('mailed_mailchimp_status', false);
+		}
 
 		return $sortable_columns;
 
