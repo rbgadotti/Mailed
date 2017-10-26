@@ -85,6 +85,6 @@ register_uninstall_hook( __FILE__, array( 'Mailed', 'plugin_uninstall' ) );
 /*
 	Start modules
 */
-add_action( 'init', array( 'Mailed', 'init' ) );
 add_action( 'init', array( 'MailedSettings', 'init' ) );
 add_action( 'init', array( 'MailedMailchimp', 'init' ) );
+add_action( 'init', array( 'Mailed', 'init' ) );

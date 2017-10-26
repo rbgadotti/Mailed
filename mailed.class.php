@@ -312,10 +312,20 @@ class Mailed {
 	*/
 	public static function action_sync_selected_mailchimp(){
 
-		$data = !empty($_POST['mailed']) ? $_POST['mailed'] : null;
+		if(MailedMailchimp::is_mailchimp_autosubscribe_on()){
 
-		if(!is_null($data)){
-			array_map("intval", $data);
+			$data = !empty($_POST['mailed']) ? $_POST['mailed'] : null;
+
+			if(!is_null($data)){
+
+				array_map("intval", $data);
+
+				$result = self::get_export_data($data);
+
+				MailedMailchimp::mailchimp_add_multiple($result);
+
+			}
+
 		}
 
 	}

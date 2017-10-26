@@ -184,6 +184,15 @@ class MailedMailchimp {
 	}
 
 	/*
+		Batch process
+	*/
+	public static function mailchimp_batches($arr){
+
+
+
+	}
+
+	/*
 		Add register to a configured list
 	*/
 	public static function mailchimp_add($email, $firstname, $lastname = null){
@@ -204,6 +213,41 @@ class MailedMailchimp {
 	}
 
 	/*
+		Multiple add or update to a configured list
+	*/
+	public static function mailchimp_add_multiple($arr){
+
+		if(!is_array($arr))
+			return;
+
+		$operations = array();
+
+		foreach($arr as $row){
+
+			$body = array(
+				'email_address' => $row[MAILED__FIELD_EMAIL],
+				'status_if_new' => 'subscribed',
+				'merge_fields' => array(
+					'FNAME' => $row[MAILED__FIELD_FIRSTNAME]
+				)
+			);
+
+			if(!empty($row[MAILED__FIELD_LASTNAME]))
+				$body['merge_fields']['LNAME'] = $row[MAILED__FIELD_LASTNAME];
+
+			$operations[] = array(
+				'method' => 'PUT',
+				'path' => 'lists/' . self::$listId . '/members/' . md5($row[MAILED__FIELD_EMAIL]),
+				'body' => json_encode($body)
+			);
+
+		}
+
+		return self::make_api_request('POST', self::get_api_url('/batches'), array('operations' => $operations));
+
+	}
+
+	/*
 		Get information about members in a list
 	*/
 	public static function mailchimp_list_members(){
@@ -211,5 +255,7 @@ class MailedMailchimp {
 		return self::lists_get_members(self::$listId);
 
 	}
+
+
 
 }
