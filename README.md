@@ -1,3 +1,3 @@
 # mailed
 
-Wordpress plugin example to create newsletter list
+Wordpress plugin example to manage newsletter lists
