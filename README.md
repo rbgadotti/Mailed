@@ -1,3 +1,8 @@
-# mailed
+# Mailed
+A example of a wordpress plugin to manage newsletter lists following the standards of the Plugin Developer Handbook
 
-Wordpress plugin example to manage newsletter lists
+# What I Learned
+* Develop Wordpress plugins
+* Best practices to any wordpress development
+* Use constants to plugin parameters
+* How the Wordpress Core works
