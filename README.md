@@ -1,5 +1,5 @@
 # Mailed
-A example of a wordpress plugin to manage newsletter lists following the standards of the Plugin Developer Handbook
+An example of a wordpress plugin to manage newsletter lists following the standards of the Plugin Developer Handbook
 
 # What I Learned
 * Develop Wordpress plugins
